@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import sys, getopt, socket
 import os.path
 
@@ -69,6 +71,7 @@ def getAddressList(file_name):
 def isIpAccessible(ip, port):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
+                sock.settimeout(3)
                 sock.connect((ip, int(port)))
                 sock.shutdown(socket.SHUT_RDWR)
                 sock.close()

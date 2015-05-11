@@ -14,7 +14,7 @@ class bcolors:
         UNDERLINE = '\033[4m'
 
 def main(argv):
-        file_name = 'ip-list.txt'
+        file_name = 'ip-list-sample.txt'
         try:
                 opts, args = getopt.getopt(argv, 'hf:', ['help', 'file='])
         except getopt.GetoptError:

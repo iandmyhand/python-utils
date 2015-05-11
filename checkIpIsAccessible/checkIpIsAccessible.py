@@ -14,7 +14,7 @@ class bcolors:
         UNDERLINE = '\033[4m'
 
 def main(argv):
-        file_name = 'ip-list-sample.txt'
+        file_name = 'ip-list.txt'
         try:
                 opts, args = getopt.getopt(argv, 'hf:', ['help', 'file='])
         except getopt.GetoptError:
@@ -57,6 +57,14 @@ def getAddressList(file_name):
                 if not line:
                         break
                 line = str(line.rstrip('\n').rstrip('\r').strip())
+
+                # Continue to read next line if line is empty.
+                if not line:
+                        continue
+                # Print commnet.
+                if line.startswith( '#' ):
+                        print line
+                        continue
                 tmp_arr = line.split(':')
                 if len(tmp_arr) == 2:
                         address_list.append({'ip':tmp_arr[0], 'port':tmp_arr[1]})
@@ -71,7 +79,6 @@ def getAddressList(file_name):
 def isIpAccessible(ip, port):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-                sock.settimeout(3)
                 sock.connect((ip, int(port)))
                 sock.shutdown(socket.SHUT_RDWR)
                 sock.close()

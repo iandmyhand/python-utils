@@ -2,6 +2,14 @@
 #!/usr/bin/python
 '''
 This app can test TCP protocol only, because client can\'t test UDP protocol.
+
+usage:
+        $ python checkHostIsAccessble.py -f <filename>
+
+Each Host and Port will must be separated by colon(:).
+Each address must be separated by new line.
+        e.g.:   127.0.0.1:80
+                127.0.0.2:443
 '''
 
 import sys, getopt, socket
@@ -48,48 +56,59 @@ def main(argv):
                         printResult(address, isHostAccessible(address['host'], address['port']))
 
 def usage():
+        print 'This app can test TCP protocol only, because client can\'t test UDP protocol.'
+        print ''
         print 'usage:'
         print '\t$ python checkHostIsAccessble.py -f <filename>'
-        print '\t\tEach Host and Port will must be separated by colon(:).'
-        print '\t\tEach address must be separated by new line(' + os.pathsep + ').'
-        print '\t\t\te.g.: 127.0.0.1:80'
-        print 'This app can test TCP protocol only, because client can\'t test UDP protocol.'
-        sys.exit()
+        print ''
+        print 'Refer ' + options['sample-filename'] + ' file.:'
+        print '\tEach Host and Port will must be separated by colon(:).'
+        print '\tEach address must be separated by new line(' + os.pathsep + ').'
+        print '\t\te.g.:\t127.0.0.1:80'
+        print '\t\t\t127.0.0.2:443'
+        sys.exit(0)
 
 def getAddressList(file_name):
         print 'read file: ' + file_name
-        if os.path.isfile(file_name):
-                file = open(file_name, 'r')
-        else:
-                print 'Cannot open file: ' + file_name
-                sys.exit(2)
 
-        address_list = []
-
-        while 1:
-                line = file.readline()
-                if not line:
-                        break
-                line = str(line.rstrip('\n').rstrip('\r').strip())
-
-                # Continue to read next line if line is empty.
-                if not line:
-                        continue
-                # Print commnet.
-                if line.startswith( '#' ):
-                        address_list.append({'comment':line})
-                        continue
-                tmp_arr = line.split(':')
-                if len(tmp_arr) is 2:
-                        address_list.append({'host':tmp_arr[0], 'port':tmp_arr[1], 'protocol':'TCP'})
-                elif len(tmp_arr) is 3:
-                        address_list.append({'host':tmp_arr[0], 'port':tmp_arr[1], 'protocol':tmp_arr[2]})
+        try:
+                if os.path.isfile(file_name):
+                        file = open(file_name, 'r')
                 else:
-                        print '\tAddress must be "HOST:PORT", but [' + line + '] is not.'
-                        print '\t\te.g.: 127.0.0.1:80'
+                        print 'Cannot open file: ' + file_name
                         sys.exit(2)
 
-        file.close()
+                address_list = []
+
+                while 1:
+                        line = file.readline()
+                        if not line:
+                                break
+                        line = str(line.rstrip('\n').rstrip('\r').strip())
+
+                        # Continue to read next line if line is empty.
+                        if not line:
+                                continue
+                        # Print comment.
+                        if line.startswith( '#' ):
+                                address_list.append({'comment':line})
+                                continue
+                        tmp_arr = line.split(':')
+                        if len(tmp_arr) is 2:
+                                address_list.append({'host':tmp_arr[0], 'port':tmp_arr[1], 'protocol':'TCP'})
+                        elif len(tmp_arr) is 3:
+                                address_list.append({'host':tmp_arr[0], 'port':tmp_arr[1], 'protocol':tmp_arr[2]})
+                        else:
+                                print '\tAddress must be "HOST:PORT", but [' + line + '] is not.'
+                                print '\t\te.g.: 127.0.0.1:80'
+                                sys.exit(2)
+
+        except Exception as e:
+                print e
+
+        finally:
+                file.close()
+
         return address_list
 
 def isHostAccessible(host, port):

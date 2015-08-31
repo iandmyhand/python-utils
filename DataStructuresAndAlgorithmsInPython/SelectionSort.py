@@ -1,39 +1,33 @@
-def selectIndexOfMinimum(array, startIndex):
-    minimumIndex = startIndex
-    minimumValue = array[startIndex]
-    index = startIndex
-    while index < len(array):
-        if(array[index] < minimumValue):
-            minimumIndex = index
-            minimumValue = array[index]
-        index = index + 1
+
+def selectIndexOfMinimum(array, p, r):
+    minimumIndex = p
+    i = p
+    while i <= r:
+        if array[minimumIndex] > array[i]:
+            minimumIndex = i
+        i = i + 1
     return minimumIndex
 
-sampleArray = [2,4,1,3,5]
-assert(selectIndexOfMinimum(sampleArray, 0) == 2)
-assert(selectIndexOfMinimum(sampleArray, 2) == 2)
-assert(selectIndexOfMinimum(sampleArray, 3) == 3)
+array = [3,5,1,2,4,-1]
+assert(selectIndexOfMinimum(array, 0, len(array) - 1) is 5)
+
 
 def swap(array, firstIndex, secondIndex):
     temp = array[firstIndex]
     array[firstIndex] = array[secondIndex]
     array[secondIndex] = temp
-    return array
 
-sampleArray = [1,2,3,4,5]
-assert(swap(sampleArray, 0, 1) == [2,1,3,4,5])
-assert(swap(sampleArray, 3, 1) == [2,4,3,1,5])
+array = [3,5,1,2,4]
+swap(array, 0, 1)
+assert(array == [5,3,1,2,4])
 
-def selectionSort(array):
-    index = 0
-    for value in array:
-        indexOfMin = selectIndexOfMinimum(array, index)
-        swap(array, index, indexOfMin)
-        index = index + 1
-    return array
 
-sampleArray = [2,4,1,3,5]
-assert(selectionSort(sampleArray) == [1,2,3,4,5])
-assert(selectionSort(sampleArray) == [1,2,3,4,5])
-sampleArray = [99,42,1,32,5]
-assert(selectionSort(sampleArray) == [1,5,32,42,99])
+def selectionSort(array, p, r):
+    if p < r:
+        i = selectIndexOfMinimum(array, p, r)
+        swap(array, p, i)
+        selectionSort(array, p+1, r)
+
+array = [3,5,1,2,4]
+selectionSort(array, 0, 4)
+assert(array == [1,2,3,4,5])

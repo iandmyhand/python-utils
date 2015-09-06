@@ -1,37 +1,42 @@
+def swap(arr, firstIndex, secondIndex):
+	temp = arr[firstIndex]
+	arr[firstIndex] = arr[secondIndex]
+	arr[secondIndex] = temp
 
-def swap(array, firstIndex, secondIndex):
-	temp = array[firstIndex]
-	array[firstIndex] = array[secondIndex]
-	array[secondIndex] = temp
-array = [-3,0,-21,88,2]
-swap(array, 0, 1)
-assert(array == [0,-3,-21,88,2])
+arr = [-3,5,0,1,3]
+swap(arr, 0, 1)
+assert arr == [5,-3,0,1,3]
 
-def partition(array, p, r):
-	pivot = p
+
+def partition(arr, p, r):
+	b = p
 	i = p
 	while i < r:
-		if array[i] < array[r]:
-			swap(array, pivot, i)
-			pivot = pivot + 1
+		# 1,4,2,5,0 | i:0, r:4, b:0
+		# 1,4,2,5,0 | i:1, r:4, b:1
+		# 1,4,2,5,0 | i:2, r:4, b:1
+		# 1,2,4,5,0 | i:3, r:4, b:2
+		# 1,2,4,5,0 | i:4, r:4, b:2
+		if arr[i] <= arr[r]:
+			swap(arr, b, i)
+			b = b + 1
 		i = i + 1
-	swap(array, pivot, r)
-	return pivot
+	swap(arr, b, r)
+	return b
 
-array = [-3,5,0,88,2]
-pivot = partition(array,0,len(array)-1)
-assert(pivot is 2)
-assert(array == [-3,0,2,88,5])
-# -3,5,0,88,2
-# -3,0,5,88,2
-# -3,0,2,88,5
+arr = [-3,5,0,1,3]
+pivot = partition(arr, 0, len(arr) - 1) # -3, 0, 1, 3, 5
+assert pivot is 3
 
-def quickSort(array, p, r):
-	if p < r:
-		pivot = partition(array, p, r)
-		quickSort(array, p, pivot-1)
-		quickSort(array, pivot+1, r)
 
-array = [-3,0,-21,88,2]
-quickSort(array, 0, len(array)-1)
-assert(array == [-21,-3,0,2,88])
+def quickSort(arr, p, r):
+	i = 0 
+	while i < (r - p):
+		pivot = partition(arr, p, r)
+		quickSort(arr, p, pivot - 1)
+		quickSort(arr, pivot + 1, r)
+		i = i + 1
+
+arr = [-3,5,0,1,3]
+quickSort(arr, 0, 4)
+assert arr == [-3,0,1,3,5]

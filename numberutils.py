@@ -1,7 +1,7 @@
 ##-*- coding: utf-8 -*-
 #!/usr/bin/python
 """
-Number to Hangul string util.
+Utilities related to Number.
 """
 
 __author__ = 'SeomGi, Han'
@@ -9,7 +9,7 @@ __credits__ = ['SeomGi, Han']
 __copyright__ = 'Copyright 2015, Python Utils Project'
 
 __license__ = 'MIT'
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 __maintainer__ = 'SeomGi, Han'
 __email__ = 'iandmyhand@gmail.com'
 __status__ = 'Production'
@@ -37,10 +37,15 @@ class NumberUtils:
         self._string_value = str(self._int_value)
         self._len_string_value = len(self._string_value)
 
+    def __del__(self):
+        self._int_value = 0
+        self._string_value = ''
+        self._len_string_value = 0
+
     def convert_to_hangul_string(self):
         """
         usage:
-            numberutils.NumberUtils(220000112490).convert_to_hangul_string() == '이천이백억일십일만이천사백구십'
+            numberutils.NumberUtils(220000112490).convert_to_hangul_string() returns '이천이백억일십일만이천사백구십'
         """
         
         result = ''
@@ -56,6 +61,26 @@ class NumberUtils:
                     big_unit_index = (self._len_string_value - index - 1) // 4
                     if len(HANGUL_NUMBER_BIG_UNIT) > big_unit_index:
                         single_result += HANGUL_NUMBER_BIG_UNIT[big_unit_index]
+                result += single_result
+                index += 1
+
+        return result
+
+    def insert_comma(self):
+        """
+        usage:
+            numberutils.NumberUtils(2200030112490).insert_comma() returns '2,200,030,112,490'
+        """
+
+        result = ''
+        if self._string_value and self._string_value.isdigit():
+            index = 0
+            while index < self._len_string_value:
+                single_result = ''
+                if ((self._len_string_value - index - 1) % 3 == 0) and (index < self._len_string_value - 1):
+                    single_result = self._string_value[index] + ','
+                else:
+                    single_result = self._string_value[index]                    
                 result += single_result
                 index += 1
 

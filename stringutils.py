@@ -54,16 +54,16 @@ class StringUtils:
             stringutils.StringUtils('filename.png').get_content_type_from_file_name() returns 'image/png'
         """
         file_name_arr = self._string_value.split('.')
-        extention = file_name_arr[len(file_name_arr) - 1]
-        if 'png' == extention:
+        extension = file_name_arr[len(file_name_arr) - 1]
+        if 'png' == extension:
             return 'image/png'
-        elif 'jpg' == extention:
+        elif 'jpg' == extension:
             return 'image/jpg'
-        elif 'tiff' == extention:
+        elif 'tiff' == extension:
             return 'image/tiff'
-        elif 'pdf' == extention:
+        elif 'pdf' == extension:
             return 'application/pdf'
 
         raise NotSupportedException(
-            message='This extention[' + str(extention) + '] is not supported.',
-            errors={'code': 'NOT_SUPPORTED_EXTENTION'})
+            message='This extension[' + str(extension) + '] is not supported.',
+            errors={'code': 'NOT_SUPPORTED_extension'})

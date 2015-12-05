@@ -9,10 +9,17 @@ __credits__ = ['SeomGi, Han']
 __copyright__ = 'Copyright 2015 SeomGi, Han, Python Utils Project'
 
 __license__ = 'MIT'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __maintainer__ = 'SeomGi, Han'
 __email__ = 'iandmyhand@gmail.com'
 __status__ = 'Production'
+
+
+class NotSupportedException(Exception):
+
+    def __init__(self, message, errors):
+        super(NotSupportedException, self).__init__(message)
+        self.errors = errors
 
 
 class StringUtils:
@@ -40,3 +47,23 @@ class StringUtils:
             result += file_full_path_arr[len(file_full_path_arr) - 1]
 
         return result
+
+    def get_content_type_from_file_name(self):
+        """
+        usage:
+            stringutils.StringUtils('filename.png').get_content_type_from_file_name() returns 'image/png'
+        """
+        file_name_arr = self._string_value.split('.')
+        extention = file_name_arr[len(file_name_arr) - 1]
+        if 'png' == extention:
+            return 'image/png'
+        elif 'jpg' == extention:
+            return 'image/jpg'
+        elif 'tiff' == extention:
+            return 'image/tiff'
+        elif 'pdf' == extention:
+            return 'application/pdf'
+
+        raise NotSupportedException(
+            message='This extention[' + str(extention) + '] is not supported.',
+            errors={'code': 'NOT_SUPPORTED_EXTENTION'})

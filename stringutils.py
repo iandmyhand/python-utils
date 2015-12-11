@@ -35,35 +35,51 @@ class StringUtils:
         self._string_value = ''
         self._len_string_value = 0
 
-    def extract_file_name_from_path(self):
+    def extract_file_name(self):
         """
         usage:
-            stringutils.StringUtils('/path/to/filename.py').extract_file_name_from_path() returns 'filename.py'
+            StringUtils('/path/to/filename.py').extract_file_name() returns 'filename.py'
         """
 
         result = ''
         if self._string_value:
-            file_full_path_arr = self._string_value.split('/')
-            result += file_full_path_arr[len(file_full_path_arr) - 1]
+            arr = self._string_value.split('/')
+            result += arr[len(arr) - 1]
 
         return result
 
-    def get_content_type_from_file_name(self):
+    def extract_extension(self):
         """
         usage:
-            stringutils.StringUtils('filename.png').get_content_type_from_file_name() returns 'image/png'
+            StringUtils('/path/to/filename.py').extract_extension() returns 'py'
         """
-        file_name_arr = self._string_value.split('.')
-        extension = file_name_arr[len(file_name_arr) - 1]
+        arr = self._string_value.split('.')
+        extension = arr[len(arr) - 1]
+        return extension
+
+    def get_content_type(self):
+        """
+        usage:
+            StringUtils('filename.png').get_content_type() returns 'image/png'
+        """
+        extension = self.extract_extension()
         if 'png' == extension:
             return 'image/png'
         elif 'jpg' == extension:
             return 'image/jpg'
-        elif 'tiff' == extension:
+        elif 'jpeg' == extension:
+            return 'image/jpeg'
+        elif 'gif' == extension:
+            return 'image/gif'
+        elif 'bmp' == extension:
+            return 'image/bmp'
+        elif 'tif' == extension or 'tiff' == extension:
             return 'image/tiff'
         elif 'pdf' == extension:
             return 'application/pdf'
+        elif 'zip' == extension:
+            return 'application/zip'
 
         raise NotSupportedException(
             message='This extension[' + str(extension) + '] is not supported.',
-            errors={'code': 'NOT_SUPPORTED_extension'})
+            errors={'code': 'NOT_SUPPORTED_EXTENSION'})

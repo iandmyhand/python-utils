@@ -40,7 +40,6 @@ class StringUtils:
         usage:
             StringUtils('/path/to/filename.py').extract_file_name() returns 'filename.py'
         """
-
         result = ''
         if self._string_value:
             arr = self._string_value.split('/')
@@ -56,6 +55,13 @@ class StringUtils:
         arr = self._string_value.split('.')
         extension = arr[len(arr) - 1]
         return extension
+
+    def extract_directory(self):
+        """
+        usage:
+            StringUtils('/path/to/filename.py').extract_extension() returns '/path/to/'
+        """
+        return self._string_value[:self._string_value.rfind('/') + 1]
 
     def get_content_type(self):
         """

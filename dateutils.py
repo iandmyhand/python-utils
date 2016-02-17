@@ -28,20 +28,26 @@ class TestDateUtils(unittest.TestCase):
 
 class DateUtils:
 
-    def is_valid_date(self, birthdate):
+    def is_valid_date(self, birth_date):
         """
-            Usage:
-                DateUtils().is_valid_date('20151021')  # True
-                DateUtils().is_valid_date('20151041')  # False
+        Usage:
+            DateUtils().is_valid_date('20151021')  # True
+            DateUtils().is_valid_date('20151041')  # False
+        Args:
+            birth_date:
+
+        Returns:
+
         """
-        if 8 != len(birthdate):
+        
+        if 8 != len(birth_date):
             return False
 
-        if not birthdate.isdigit():
+        if not birth_date.isdigit():
             return False
 
         try:
-            datetime.datetime.strptime(birthdate, '%Y%m%d')
+            datetime.datetime.strptime(birth_date, '%Y%m%d')
         except ValueError:
             return False
 

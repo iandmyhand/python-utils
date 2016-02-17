@@ -41,7 +41,6 @@ class TestKoreanUtils(unittest.TestCase):
         # self.assertTrue(KoreanUtils().is_valid_foreign_ssn(''))
 
 
-
 class KoreanUtils:
 
     def is_valid_ssn(self, ssn):

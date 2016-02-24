@@ -26,11 +26,11 @@ class TestDateUtils(unittest.TestCase):
         self.assertFalse(DateUtils().is_valid_date('20151000'))
 
     def test_get_first_date_of_next_month(self):
-        base_datetime = datetime.datetime(2016, 12, 31)
-        next_month = DateUtils().get_first_date_of_next_month(base_datetime=base_datetime)
+        base_date = datetime.datetime(2016, 12, 31)
+        next_month = DateUtils().get_first_date_of_next_month(base_date=base_date)
         self.assertEqual(1, next_month.month)
-        base_datetime = datetime.datetime(2016, 1, 1)
-        next_month = DateUtils().get_first_date_of_next_month(base_datetime=base_datetime)
+        base_date = datetime.datetime(2016, 1, 1)
+        next_month = DateUtils().get_first_date_of_next_month(base_date=base_date)
         self.assertEqual(2, next_month.month)
 
 
@@ -61,17 +61,18 @@ class DateUtils:
 
         return True
 
-    def get_first_date_of_next_month(self, base_datetime=datetime.datetime.today()):
+    def get_first_date_of_next_month(self, base_date=datetime.datetime.today()):
         """
         Usage:
-
+            DateUtils().get_first_date_of_next_month() # if today is 2016.2.24 then return datetime.date(2016, 3, 1)
+            DateUtils().get_first_date_of_next_month(datetime.datetime(2016, 12, 31))  # datetime.date(2017, 1, 1)
         Args:
-            base_datetime: datetime
+            base_date: datetime.date
         """
-        if 12 < base_datetime.month + 1:
-            return datetime.date(base_datetime.year + 1, 1, 1)
+        if 12 < base_date.month + 1:
+            return datetime.date(base_date.year + 1, 1, 1)
         else:
-            return datetime.date(base_datetime.year, base_datetime.month + 1, 1)
+            return datetime.date(base_date.year, base_date.month + 1, 1)
 
 
 if __name__ == '__main__':

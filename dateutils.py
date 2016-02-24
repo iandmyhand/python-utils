@@ -25,6 +25,14 @@ class TestDateUtils(unittest.TestCase):
         self.assertFalse(DateUtils().is_valid_date('2015102'))
         self.assertFalse(DateUtils().is_valid_date('20151000'))
 
+    def test_get_first_date_of_next_month(self):
+        base_datetime = datetime.datetime(2016, 12, 31)
+        next_month = DateUtils().get_first_date_of_next_month(base_datetime=base_datetime)
+        self.assertEqual(1, next_month.month)
+        base_datetime = datetime.datetime(2016, 1, 1)
+        next_month = DateUtils().get_first_date_of_next_month(base_datetime=base_datetime)
+        self.assertEqual(2, next_month.month)
+
 
 class DateUtils:
 
@@ -52,6 +60,19 @@ class DateUtils:
             return False
 
         return True
+
+    def get_first_date_of_next_month(self, base_datetime=datetime.datetime.today()):
+        """
+        Usage:
+
+        Args:
+            base_datetime: datetime
+        """
+        if 12 < base_datetime.month + 1:
+            return datetime.date(base_datetime.year + 1, 1, 1)
+        else:
+            return datetime.date(base_datetime.year, base_datetime.month + 1, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

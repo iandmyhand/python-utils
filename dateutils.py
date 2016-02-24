@@ -64,7 +64,7 @@ class DateUtils:
     def get_first_date_of_next_month(self, base_date=datetime.datetime.today()):
         """
         Usage:
-            DateUtils().get_first_date_of_next_month() # if today is 2016.2.24 then return datetime.date(2016, 3, 1)
+            DateUtils().get_first_date_of_next_month()  # if today is 2016.2.24 then return datetime.date(2016, 3, 1)
             DateUtils().get_first_date_of_next_month(datetime.datetime(2016, 12, 31))  # datetime.date(2017, 1, 1)
         Args:
             base_date: datetime.date

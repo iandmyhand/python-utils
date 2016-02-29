@@ -6,12 +6,14 @@ Utilities related to Dates.
 import datetime
 import unittest
 
+from numberutils import NumberUtils
+
 __author__ = 'SeomGi, Han'
 __credits__ = ['SeomGi, Han']
 __copyright__ = 'Copyright 2015, Python Utils Project'
 
 __license__ = 'MIT'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __maintainer__ = 'SeomGi, Han'
 __email__ = 'iandmyhand@gmail.com'
 __status__ = 'Development'
@@ -33,6 +35,15 @@ class TestDateUtils(unittest.TestCase):
         next_month = DateUtils().get_first_date_of_next_month(base_date=base_date)
         self.assertEqual(2, next_month.month)
 
+    def test_get_age_band(self):
+        today = datetime.datetime.today()
+        year = today.year - 36
+        self.assertEqual(30, DateUtils().get_age_band(year=year))
+        year = today.year - 41
+        self.assertEqual(40, DateUtils().get_age_band(year=year))
+        year = today.year - 99
+        self.assertEqual(90, DateUtils().get_age_band(year=year))
+
 
 class DateUtils:
 
@@ -47,7 +58,6 @@ class DateUtils:
         Returns:
 
         """
-        
         if 8 != len(birth_date):
             return False
 
@@ -73,6 +83,15 @@ class DateUtils:
             return datetime.date(base_date.year + 1, 1, 1)
         else:
             return datetime.date(base_date.year, base_date.month + 1, 1)
+
+    def get_age_band(self, year):
+        """
+        Usage:
+
+        Args:
+            year: four digit number or string.
+        """
+        return NumberUtils(datetime.datetime.today().year - int(year)).round_down(1)
 
 
 if __name__ == '__main__':

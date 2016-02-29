@@ -11,10 +11,10 @@ __credits__ = ['SeomGi, Han']
 __copyright__ = 'Copyright 2015, Python Utils Project'
 
 __license__ = 'MIT'
-__version__ = '1.0.0'
+__version__ = '0.0.2'
 __maintainer__ = 'SeomGi, Han'
 __email__ = 'iandmyhand@gmail.com'
-__status__ = 'Production'
+__status__ = 'Development'
 
 
 HANGUL_NUMBER = [

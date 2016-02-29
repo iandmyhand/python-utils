@@ -31,9 +31,9 @@ HANGUL_NUMBER_BIG_UNIT = [
 class TestNumberUtils(unittest.TestCase):
 
     def test_round_down(self):
-        self.assertEqual(30, NumberUtils(36).round_down(2))
-        self.assertEqual(300, NumberUtils(361).round_down(3))
-        self.assertEqual(700, NumberUtils(768).round_down(3))
+        self.assertEqual(30, NumberUtils(36).round_down(1))
+        self.assertEqual(300, NumberUtils(361).round_down(2))
+        self.assertEqual(700, NumberUtils(768).round_down(2))
 
 
 class NumberUtils:
@@ -103,7 +103,7 @@ class NumberUtils:
         Args:
             x: digit number
         """
-        return self._int_value - (self._int_value % int(math.pow(10, int(x) - 1)))
+        return self._int_value - (self._int_value % int(math.pow(10, int(x))))
 
 
 if __name__ == '__main__':

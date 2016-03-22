@@ -315,7 +315,7 @@ def format(fmtstr, *args, **kwargs):
                     obuff.append(sel[1])
                 elif ishan:
                     if sel[0]:
-                        obuff[-1] = obuff[-1][:-1] + unichr(ord(ofmt[-1]) + sel[0])
+                        obuff[-1] = obuff[-1][:-1] + chr(ord(ofmt[-1]) + sel[0])
                 else:
                     obuff.append(sel[0] and sel[1])
                 ncur += 2

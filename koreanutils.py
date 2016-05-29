@@ -5,6 +5,7 @@ Utilities related to Korean.
 If you want to test this util, run in the terminal below code.
     $ python3 koreanutils.py
 """
+import re
 import unittest
 
 from dateutils import DateUtils
@@ -13,35 +14,77 @@ from dateutils import DateUtils
 class TestKoreanUtils(unittest.TestCase):
 
     def test_is_valid_korean_ssn(self):
-        self.assertFalse(KoreanUtils().is_valid_korean_ssn(None))
-        self.assertFalse(KoreanUtils().is_valid_korean_ssn('1234567890123'))
-        self.assertFalse(KoreanUtils().is_valid_korean_ssn('2001011111111'))
-        self.assertFalse(KoreanUtils().is_valid_korean_ssn('9012310000000'))
-        self.assertFalse(KoreanUtils().is_valid_korean_ssn('5000001234567'))
+        instance = KoreanUtils()
+        self.assertFalse(instance.is_valid_korean_ssn(None))
+        self.assertFalse(instance.is_valid_korean_ssn('1234567890123'))
+        self.assertFalse(instance.is_valid_korean_ssn('2001011111111'))
+        self.assertFalse(instance.is_valid_korean_ssn('9012310000000'))
+        self.assertFalse(instance.is_valid_korean_ssn('5000001234567'))
 
-        # self.assertTrue(KoreanUtils().is_valid_korean_ssn(''))
+        # self.assertTrue(instance.is_valid_korean_ssn(''))
 
     def test_is_valid_foreign_ssn(self):
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn(None))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('1234567890123'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('2001011111111'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('9012310000000'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('5000001234567'))
+        instance = KoreanUtils()
+        self.assertFalse(instance.is_valid_foreign_ssn(None))
+        self.assertFalse(instance.is_valid_foreign_ssn('1234567890123'))
+        self.assertFalse(instance.is_valid_foreign_ssn('2001011111111'))
+        self.assertFalse(instance.is_valid_foreign_ssn('9012310000000'))
+        self.assertFalse(instance.is_valid_foreign_ssn('5000001234567'))
 
-        # self.assertTrue(KoreanUtils().is_valid_foreign_ssn(''))
+        # self.assertTrue(instance.is_valid_foreign_ssn(''))
 
     def test_is_valid_ssn(self):
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn(None))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('1234567890123'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('2001011111111'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('9012310000000'))
-        self.assertFalse(KoreanUtils().is_valid_foreign_ssn('5000001234567'))
+        instance = KoreanUtils()
+        self.assertFalse(instance.is_valid_foreign_ssn(None))
+        self.assertFalse(instance.is_valid_foreign_ssn('1234567890123'))
+        self.assertFalse(instance.is_valid_foreign_ssn('2001011111111'))
+        self.assertFalse(instance.is_valid_foreign_ssn('9012310000000'))
+        self.assertFalse(instance.is_valid_foreign_ssn('5000001234567'))
 
-        # self.assertTrue(KoreanUtils().is_valid_korean_ssn(''))
-        # self.assertTrue(KoreanUtils().is_valid_foreign_ssn(''))
+        # self.assertTrue(instance.is_valid_korean_ssn(''))
+        # self.assertTrue(instance.is_valid_foreign_ssn(''))
+
+    def test_is_building_number(self):
+        instance = KoreanUtils()
+        self.assertFalse(instance.is_building_number(None))
+        self.assertTrue(instance.is_building_number('46-4'))
+        self.assertFalse(instance.is_building_number('아리수로'))
+        self.assertTrue(instance.is_building_number('975'))
+        self.assertFalse(instance.is_building_number('천호대로'))
+
+    def test_get_divide_to_road_address_and_building_number(self):
+        instance = KoreanUtils()
+        self.assertEqual(('', ''), instance.divide_to_road_address_and_building_number(None))
+        self.assertEqual(('서울 강동구 아리수로', '46-4'), instance.divide_to_road_address_and_building_number('서울 강동구 아리수로 46-4'))
+        self.assertEqual(('서울 강동구 천호대로', '975'), instance.divide_to_road_address_and_building_number('서울 강동구 천호대로 975'))
+        self.assertEqual(('강원 강릉시 주문진읍 울릉3길', '1'), instance.divide_to_road_address_and_building_number('강원 강릉시 주문진읍 울릉3길 1'))
 
 
 class KoreanUtils:
+
+    def divide_to_road_address_and_building_number(self, full_road_address):
+        if not full_road_address:
+            return '', ''
+
+        _road_address = full_road_address if full_road_address else ''
+        _building_number = ''
+
+        _full_road_address_arr = full_road_address.split(' ')
+        for i in reversed(range(0, len(_full_road_address_arr))):
+            if self.is_building_number(_full_road_address_arr[i]):
+                _road_address = ' '.join(_full_road_address_arr[:i])
+                _building_number = ' '.join(_full_road_address_arr[i:])
+                break
+
+        return _road_address, _building_number
+    
+    def is_building_number(self, building_number_string):
+        if not building_number_string:
+            return False
+        _pattern = re.compile('[0-9]+([\-]+[0-9]+)*')
+        if re.search(_pattern, building_number_string) is None:
+            return False
+        return True
 
     def is_valid_ssn(self, ssn):
         if not ssn:

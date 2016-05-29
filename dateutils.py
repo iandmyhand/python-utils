@@ -6,6 +6,9 @@ Utilities related to Dates.
 import datetime
 import unittest
 
+from calendar import monthrange
+from dateutil import relativedelta
+
 from numberutils import NumberUtils
 
 __author__ = 'SeomGi, Han'
@@ -43,6 +46,12 @@ class TestDateUtils(unittest.TestCase):
         self.assertEqual(40, DateUtils().get_age_band(year=year))
         year = today.year - 99
         self.assertEqual(90, DateUtils().get_age_band(year=year))
+
+    def test_month_delta(self):
+        date1 = datetime.datetime.strptime(str('2011-08-14 12:00:00'), '%Y-%m-%d %H:%M:%S')
+        date2 = datetime.datetime.strptime(str('2012-02-15'), '%Y-%m-%d')
+        self.assertEqual(6, DateUtils().month_delta(date1, date2))
+        self.assertEqual(-6, DateUtils().month_delta(date2, date1))
 
 
 class DateUtils:
@@ -92,6 +101,17 @@ class DateUtils:
             year: four digit number or string.
         """
         return NumberUtils(datetime.datetime.today().year - int(year)).round_down(1)
+
+    def month_delta(self, d1, d2):
+        delta = 0
+        while True:
+            mdays = monthrange(d1.year, d1.month)[1]
+            d1 += datetime.timedelta(days=mdays)
+            if d1 <= d2:
+                delta += 1
+            else:
+                break
+        return delta
 
 
 if __name__ == '__main__':

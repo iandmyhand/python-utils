@@ -58,6 +58,7 @@ class TestKoreanUtils(unittest.TestCase):
         self.assertEqual(('서울 강동구 아리수로', '46-4'), instance.divide_to_road_address_and_building_number('서울 강동구 아리수로 46-4'))
         self.assertEqual(('서울 강동구 천호대로', '975'), instance.divide_to_road_address_and_building_number('서울 강동구 천호대로 975'))
         self.assertEqual(('강원 강릉시 주문진읍 울릉3길', '1'), instance.divide_to_road_address_and_building_number('강원 강릉시 주문진읍 울릉3길 1'))
+        self.assertEqual(('서울 구로구 시흥대로', '525 (태천대)'), instance.divide_to_road_address_and_building_number('서울 구로구 시흥대로 525 (태천대)'))
 
 
 class KoreanUtils:

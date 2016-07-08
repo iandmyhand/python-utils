@@ -35,6 +35,9 @@ class TestNumberUtils(unittest.TestCase):
         self.assertEqual(300, NumberUtils(361).round_down(2))
         self.assertEqual(700, NumberUtils(768).round_down(2))
 
+    def test_set_value(self):
+        self.assertEqual("1,000", NumberUtils().set_value(1000).insert_comma())
+
 
 class NumberUtils:
 
@@ -56,6 +59,7 @@ class NumberUtils:
         self._int_value = int_value
         self._string_value = str(self._int_value)
         self._len_string_value = len(self._string_value)
+        return self
 
     def convert_to_hangul_string(self):
         """

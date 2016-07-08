@@ -51,6 +51,11 @@ class NumberUtils:
         self._int_value = 0
         self._string_value = ''
         self._len_string_value = 0
+    
+    def set_value(self, int_value=0):
+        self._int_value = int_value
+        self._string_value = str(self._int_value)
+        self._len_string_value = len(self._string_value)
 
     def convert_to_hangul_string(self):
         """

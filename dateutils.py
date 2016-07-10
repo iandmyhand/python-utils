@@ -53,6 +53,11 @@ class TestDateUtils(unittest.TestCase):
         self.assertEqual(6, DateUtils().month_delta(date1, date2))
         self.assertEqual(-6, DateUtils().month_delta(date2, date1))
 
+    def test_get_timestamp_diff_formatted(self):
+        _now = datetime.datetime.now()
+        _date_utils = DateUtils()
+        self.assertEqual('-', _date_utils.get_timestamp_diff_formatted(_now.timestamp(), _now.timestamp()))
+
 
 class DateUtils:
 
@@ -112,6 +117,52 @@ class DateUtils:
             else:
                 break
         return delta
+
+    def get_timestamp_diff_formatted(self, big_timestamp, small_timestamp):
+        if big_timestamp and isinstance(big_timestamp, int):
+            _big_date = datetime.datetime.fromtimestamp(big_timestamp)
+        else:
+            _big_date = datetime.datetime.now()
+        if small_timestamp and isinstance(small_timestamp, int):
+            _small_date = datetime.datetime.fromtimestamp(small_timestamp)
+        else:
+            _small_date = datetime.datetime.now()
+
+        return self.get_datetime_diff_formatted(_big_date, _small_date)
+
+    def get_datetime_diff_formatted(self, big_date, small_date):
+        if big_date and isinstance(big_date, datetime.datetime):
+            _big_date = big_date
+        else:
+            _big_date = datetime.datetime.now()
+        if small_date and isinstance(small_date, datetime.datetime):
+            _small_date = small_date
+        else:
+            _small_date = datetime.datetime.now()
+
+        if _big_date <= _small_date:
+            return '-'
+
+        _delta = _big_date - _small_date
+        _remain_seconds = _delta.total_seconds()
+        _remain_days = _remain_seconds // (24 * 60 * 60)
+        _remain_seconds %= (24 * 60 * 60)
+        _remain_hours = _remain_seconds // (60 * 60)
+        _remain_seconds %= (60 * 60)
+        _remain_minutes = _remain_seconds // 60
+        if _remain_days:
+            if _remain_hours:
+                _result = '%d일 %d시간' % (_remain_days, _remain_hours)
+            else:
+                _result = '%d일 %d분' % (_remain_days, _remain_minutes if _remain_minutes else 1)
+        elif _remain_hours:
+            _result = '%d시간 %d분' % (_remain_hours, _remain_minutes if _remain_minutes else 1)
+        elif _remain_minutes:
+            _result = '%d분' % _remain_minutes
+        else:
+            _result = '1분 미만'
+
+        return _result
 
 
 if __name__ == '__main__':

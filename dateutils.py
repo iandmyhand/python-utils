@@ -105,6 +105,8 @@ class DateUtils:
         Args:
             year: four digit number or string.
         """
+        if not year or (isinstance(year, str) and not year.isdigit()):
+            return None
         return NumberUtils(datetime.datetime.today().year - int(year)).round_down(1)
 
     def month_delta(self, d1, d2):

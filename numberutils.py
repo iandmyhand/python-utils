@@ -63,7 +63,7 @@ class NumberUtils:
     _len_string_value = 0
 
     def __init__(self, int_value=0):
-        self._int_value = int_value
+        self._int_value = int(int_value)
         self._string_value = str(self._int_value)
         self._len_string_value = len(self._string_value)
 

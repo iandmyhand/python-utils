@@ -116,6 +116,8 @@ class StringUtils:
             return 'application/pdf'
         elif 'zip' == extension:
             return 'application/zip'
+        elif 'xlsx' == extension:
+            return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         raise NotSupportedException(
             message='This extension[' + str(extension) + '] is not supported.',
